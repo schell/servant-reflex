@@ -113,6 +113,7 @@ This repository comes with a small example of an API shared between a ghcjs-comp
 First build the library:
 
 ```
+git clone https://github.com/reflex-frp/reflex-platform
 git submodule update --init --recursive
 ./build.sh
 ```
