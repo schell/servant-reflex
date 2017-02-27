@@ -10,5 +10,6 @@ reflex-platform.ghcjs.override {
   overrides = self: super: { 
      servant       = dontCheck (self.callPackage (cabal2nixResult deps/servant/servant) {});
      http-api-data = dontCheck (self.callPackage (cabal2nixResult deps/http-api-data) {});
+     natural-transformation = dontCheck (self.callHackage "natural-transformation" "0.4" {});
   };
 }

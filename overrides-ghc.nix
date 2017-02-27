@@ -13,6 +13,7 @@ in reflex-platform.ghc.override {
     xmlhtml  = pkgs.haskell.lib.dontCheck (self.callPackage (c2n deps/servant-snap/deps/snap/deps/xmlhtml) {});
     snap-core  = pkgs.haskell.lib.dontCheck (self.callPackage (c2n deps/servant-snap/deps/snap/deps/snap-core) {});
     servant  = pkgs.haskell.lib.dontCheck (self.callPackage (c2n deps/servant/servant) {});
+    natural-transformation = dontCheck (self.callHackage "natural-transformation" "0.4" {});
     http-api-data = pkgs.haskell.lib.dontCheck (self.callPackage (c2n deps/http-api-data) {});
   };
 }
