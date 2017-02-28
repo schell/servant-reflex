@@ -5,6 +5,7 @@
 {-# LANGUAGE TypeFamilies      #-}
 {-# LANGUAGE TypeOperators     #-}
 
+import           Control.Monad.IO.Class            (liftIO)
 import           Data.Aeson
 import           Data.Bool
 import           Data.Char                         (toUpper)
@@ -14,6 +15,7 @@ import           Data.Proxy
 import           Data.Text                         hiding (head, length, map,
                                                     null, toUpper)
 import qualified Data.Text                         as T
+import qualified Data.Text.IO                      as T
 import           GHC.Generics
 import           Servant.Server.Internal.SnapShims
 import           Snap.Core
@@ -60,7 +62,11 @@ server = return () :<|> return 100 :<|> sayhi :<|> dbl :<|> multi :<|> qna :<|> 
            return . modifier $ greetPart <> n
         dbl x = return $ x * 2
         multi = return . bool "Box unchecked" "Box Checked"
-        qna = return . Answer . unQuestion
+        qna q = do
+          liftIO $ do
+            putStrLn $ "qna got: " ++ show q
+            T.putStrLn $ unQuestion q
+          return $ Answer $ unQuestion q
 
 -- Turn the server into a WAI app. 'serve' is provided by servant,
 -- more precisely by the Servant.Server module.

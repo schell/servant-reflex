@@ -109,13 +109,16 @@ run = do
                                       fmapMaybe reqSuccess $
                                       multiResp)
 
+  el "br" $ return ()
+
   elClass "div" "demo-group" $ do
     text "JSON Unicode encoding test"
     txt <- value <$> textInput def
     ev  <- button "Question"
-    let dQ = Right . Question <$> txt
+    let dQ = Right . Question <$> traceDyn "will send: " txt
     rr  <- qna dQ ev
-    dynText =<< holdDyn "No Answer" (unAnswer <$> fmapMaybe reqSuccess rr)
+    el "p" $
+      dynText =<< holdDyn "No Answer" (unAnswer <$> fmapMaybe reqSuccess rr)
 
 showXhrResponse :: XhrResponse -> Text
 showXhrResponse (XhrResponse stat stattxt rbmay rtmay respHeaders) =

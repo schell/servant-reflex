@@ -9,7 +9,7 @@ import           Data.Aeson.Types (typeMismatch)
 import           Data.Text        (Text)
 import           Servant.API
 
-newtype Question = Question { unQuestion :: Text }
+newtype Question = Question { unQuestion :: Text } deriving (Show)
 
 instance ToJSON Question where
   toJSON (Question txt) = object ["question" .= txt]
@@ -18,7 +18,7 @@ instance FromJSON Question where
   parseJSON (Object v) = Question <$> v .: "question"
   parseJSON x          = typeMismatch "Couldn't find key 'question'" x
 
-newtype Answer = Answer { unAnswer :: Text }
+newtype Answer = Answer { unAnswer :: Text } deriving (Show)
 
 instance ToJSON Answer where
   toJSON (Answer txt) = object ["answer" .= txt]
@@ -38,7 +38,8 @@ type API = "getunit" :> Get '[JSON] ()
       :<|> "double" :> ReqBody '[JSON] Double
                     :> Post '[JSON] Double
       :<|> "a" :> "b" :> QueryFlag "gusto" :> Get '[JSON] Text
-      :<|> "qna" :> ReqBody '[JSON] Question :> Get '[JSON] Answer
+      :<|> "qna" :> ReqBody '[JSON] Question
+                 :> Post '[JSON] Answer
       :<|> Raw
 
 type GET = Get '[JSON] ()
